@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <header>
+        <div class="logo_titulo">
+            <img src="img/logo.png" alt="Logo"
+            class="logo"/>
+            <h1>Gestão Acadêmica</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Página Inicial</a></li>
+                <li><a href="cursos.html">Cadastro de Cursos</a></li>
+                <li><a href="professores.html">Cadastro de Professores</a></li    
+            </ul>
+        </nav>
+    </header>
+    <main>
+  <button id="addProf">Adicionar Professor</button>
+    <table id="profsTable">
+      <thead>
+        <tr>
+          <th>Nome do Professor</th>
+          <th>Email</th>
+          <th>Sala</th>
+        </tr>
+      </thead>
+     <tbody>
+       <!-- Professores serão inseridos aqui via JavaScript -->
+      </tbody>
+    </table>
+</main>
+
+<!-- Modal para Adicionar/Editar Professor -->
+<div id="profModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Adicionar/Editar Professor</h2>
+    <form id="profForm">
+      <input type="hidden" id="codigo" name="codigo" required>
+      <label for="nomeProf">Nome do Professor:</label>
+      <input type="text" id="nomeProf" name="nomeProf" required>
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required>
+      <label for="sala">Sala:</label>
+      <input type="text" id="sala" name="sala" required>
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+</div>
+
+<script src="professores.js"></script>
+
+</body>
+</html>

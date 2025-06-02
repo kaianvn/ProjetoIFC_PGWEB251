@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "nomeProf": "Ana Paula Silva",
+        "email": "ana.silva@universidade.edu",
+        "sala": "A101"
+    },
+    {
+        "id": 2,
+        "nomeProf": "Carlos Eduardo Souza",
+        "email": "carlos.souza@universidade.edu",
+        "sala": "B202"
+    },
+    {
+        "id": 3,
+        "nomeProf": "Fernanda Lima",
+        "email": "fernanda.lima@universidade.edu",
+        "sala": "C303"
+    },
+    {
+        "id": 4,
+        "nomeProf": "João Pedro Almeida",
+        "email": "joao.almeida@universidade.edu",
+        "sala": "D404"
+    },
+    {
+        "id": 5,
+        "nomeProf": "Mariana Costa",
+        "email": "mariana.costa@universidade.edu",
+        "sala": "E505"
+    }
+]
