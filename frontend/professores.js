@@ -54,52 +54,82 @@ function editProf(index) {
     document.getElementById('nomeProf').value = prof.nomeProf;
     document.getElementById('email').value = prof.email;
     document.getElementById('sala').value = prof.sala;
-    currentProfId = index;
+    currentProfId = prof.codigo;
     openModal("profModal");
 }
 
 function deleteProf(index) {
-    if (confirm("Tem certeza que deseja excluir este professor?")) {
-        profs.splice(index, 1);
-        renderProfs();
+    const prof = profs[index];
+    const profId = prof.codigo;
+
+    if (confirm(`Tem certeza que deseja excluir o professor ${prof.nomeProf}?`)) {
+        fetch(`http://localhost:3000/professores/${profId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete professor');
+            }
+            console.log('Professor deleted successfully');
+            renderProfs();
+        })
+        .catch(error => {
+            console.error('Error deleting professor:', error);
+            alert('Falha ao excluir o professor.');
+        });
     }
 }
 
 function addProf(codigo, nomeProf, email, sala) {
-    let prof = {codigo, nomeProf, email, sala};
+    let prof = {nome: nomeProf, email, sala};
     console.log(prof);
 
-    fetch('http://localhost:3000/professores', {
+    return fetch('http://localhost:3000/professores', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({prof})
+        body: JSON.stringify(prof)
     })
     .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
+    .catch(error => console.error('Error adding professor:', error));
+}
 
-    renderProfs();
+function updateProf(codigo, nomeProf, email, sala) {
+    let prof = {nome: nomeProf, email, sala};
+    
+    return fetch(`http://localhost:3000/professores/${codigo}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(prof)
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Error updating professor:', error));
 }
 
 const profForm = document.getElementById("profForm");
 profForm.addEventListener("submit", function(event){
     event.preventDefault();
-    const codigo = document.getElementById("codigo").value;
-    const nomeProf = document.getElementById("nomeProf").value;
-    const email = document.getElementById("email").value;
-    const sala = document.getElementById("sala").value;
+    const codigo = document.getElementById('codigo').value;
+    const nomeProf = document.getElementById('nomeProf').value;
+    const email = document.getElementById('email').value;
+    const sala = document.getElementById('sala').value;
 
+    let promise;
     if (currentProfId !== null) {
-        profs[currentProfId] = {codigo, nomeProf, email, sala};
+        promise = updateProf(codigo, nomeProf, email, sala);
     } else {
-        addProf(codigo, nomeProf, email, sala);
+        promise = addProf(codigo, nomeProf, email, sala);
     }
-    
-    closeModal("profModal");
-    renderProfs();
+
+    // After the promise resolves, then update the UI
+    promise.then(() => {
+        closeModal("profModal");
+        currentProfId = null; // Reset the state
+        renderProfs(); // Re-render the table once
+    });
 });
 
 renderProfs();

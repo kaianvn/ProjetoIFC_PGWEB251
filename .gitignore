@@ -32,3 +32,6 @@ logs/
 *.cache
 *.tmp
 *.swp
+
+#test files
+tests/

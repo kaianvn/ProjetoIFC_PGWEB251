@@ -1,0 +1,71 @@
+const Curso = require('../models/Curso');
+
+exports.getCursos = async (req, res) => {
+    try {
+        const cursos = await Curso.getAllCursos();
+        res.status(200).json(cursos);
+    } catch (error) {
+        console.error('Error fetching cursos:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getCurso = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        const curso = await Curso.getCursoById(id);
+        if (!curso || curso.length === 0) {
+            return res.status(404).json({ error: 'Curso not found' });
+        }
+        res.json(curso);
+    } catch (error) {
+        console.error('Error fetching curso:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.insertCurso = async (req, res) => {
+    // --- DEBUGGING STEP ---
+    //console.log('Received body for insert:', req.body); 
+
+    const { nome, sigla, descricao, id_coordenador } = req.body;
+    try {
+        const newCurso = await Curso.insert({ nome, sigla, descricao, id_coordenador });
+        res.status(201).json(newCurso);
+    } catch (error) {
+        console.error('Error inserting curso:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.updateCurso = async (req, res) => {
+    // --- DEBUGGING STEP ---
+    //console.log('Received body for update:', req.body);
+
+    const id = parseInt(req.params.id);
+    const { nome, sigla, descricao, id_coordenador } = req.body;
+    try {
+        const updatedCurso = await Curso.update(id, { nome, sigla, descricao, id_coordenador });
+        if (!updatedCurso) {
+            return res.status(404).json({ error: 'Curso not found' });
+        }
+        res.status(200).json(updatedCurso);
+    } catch (error) {
+        console.error('Error updating curso:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.deleteCurso = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        const deletedCurso = await Curso.delete(id);
+        if (!deletedCurso) {
+            return res.status(404).json({ error: 'Curso not found' });
+        }
+        res.status(200).json({ message: 'Curso deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting curso:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

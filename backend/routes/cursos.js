@@ -1,24 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const cursoController = require('../controllers/cursoController');
 
-router.get('/', (req, res) => {
-  const cursos = require('../public/cursos.json');
-  res.json(cursos);
-});
+router.get('/', cursoController.getCursos);
 
-router.post('/', (req, res) => {
-  console.log(req.body);
-  res.send('POST request to /cursos: ' + req.body.nomeCurso);
-});
+router.get('/:id', cursoController.getCurso);
 
-router.put('/', (req, res) => {
-  console.log(req.body);
-  res.send('PUT request to /cursos: ' + req.body.id);
-});
+router.post('/', cursoController.insertCurso);
 
-router.delete('/', (req, res) => {
-  console.log(req.body);
-  res.send('DELETE request to /cursos: ' + req.body.id);
-});
+router.put('/:id', cursoController.updateCurso);
+
+router.delete('/:id', cursoController.deleteCurso);
 
 module.exports = router;
